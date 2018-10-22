@@ -1,3 +1,10 @@
+/*
+DOMED - The stubborn DOM sprite game engine.
+Core Stylesheet
+by Camilo Villamizar
+est. 2018
+*/
+
 // grab the DOM elements we want to manipulate
 var viewport = document.getElementById('viewport');
 var level = document.getElementById('level');
@@ -256,7 +263,7 @@ function animate()
 	// call this function again asap
 	requestAnimationFrame(animate);
 	// measure time and add or remove sprites
-	checkFPS();
+	// checkFPS();
 	// bounce the sprites around and scroll the level
 	animateSprites();
 }
