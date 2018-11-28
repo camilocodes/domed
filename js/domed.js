@@ -45,18 +45,52 @@ class DGob {
 		this.accelY;
 
 		// Sprite
-		this.sprite = new DSprite
+		this.sprite = new DSprite();
+	}
+
+	update() {
+		// Position
+		// Attributes
+		this.posX += this.velX;
+		this.posY += this.velY;
+		// Sprite
+		this.sprite.style.left = this.posX + "px";
+		this.sprite.style.top = this.posY + "px";
 	}
 }
 
 // Game class
 class DGame {
-	
+
 }
 
+// On load !!!!!!!!!!
 window.onload = function() {
-	let myGob = new DGob();
+	if (!window.requestAnimationFrame) {
+		window.requestAnimationFrame = (function()
+		{
+			return window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			function(callback,element)
+			{
+				window.setTimeout(callback, 1000 / 60);
+			};
+		})();
+	}
+
+	myGob = new DGob();
 	myGob.sprite.loadSheet('./gfx/game/ball.png');
 	myGob.sprite.setDimensions(8, 8);
 	document.getElementById('viewport').appendChild(myGob.sprite.element);
+	myGob.velX = 1;
+	myGob.velY = 1;
+	animate();
 };
+
+function animate() {
+	myGob.update();
+	// Call this function again asap
+	window.requestAnimationFrame(animate);
+}
