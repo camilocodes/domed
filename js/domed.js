@@ -32,7 +32,7 @@ class DSprite {
 class DGob {
 
 	constructor() {
-		// Position
+		// Position (pixels, 0 = origin)
 		this.posX = 0;
 		this.posY = 0;
 
@@ -41,8 +41,17 @@ class DGob {
 		this.velY = 0;
 
 		// Acceleration
-		this.accelX;
-		this.accelY;
+		this.accelX = 0;
+		this.accelY = 0;
+
+		// Angular position/orientation (degrees, 0 = default/north)
+		this.posA = 0;
+
+		// Angular velocity
+		this.velA = 0;
+
+		// Angular acceleration
+		this.accelA = 0;
 
 		// Sprite
 		this.sprite = new DSprite();
@@ -50,12 +59,33 @@ class DGob {
 
 	update() {
 		// Position
-		// Attributes
 		this.posX += this.velX;
 		this.posY += this.velY;
+
+		// Velocity
+		this.velX += this.accelX;
+		this.velY += this.accelY;
+
+		// Angular position
+		this.posA += this.velA;
+
+		// Angular velocity
+		this.velA += this.accelA;
+
 		// Sprite
-		this.sprite.style.left = this.posX + "px";
-		this.sprite.style.top = this.posY + "px";
+		// Position
+		this.sprite.style.left = this.posX 	+ "px";
+		this.sprite.style.top = this.posY 	+ "px";
+
+		// Angular position
+		if (this.posA >= 360) this.posA -= 360;
+
+		var deg = this.posA;
+		this.sprite.style.webkitTransform = 'rotate('+deg+'deg)';
+		this.sprite.style.mozTransform    = 'rotate('+deg+'deg)';
+		this.sprite.style.msTransform     = 'rotate('+deg+'deg)';
+		this.sprite.style.oTransform      = 'rotate('+deg+'deg)';
+		this.sprite.style.transform       = 'rotate('+deg+'deg)';
 	}
 }
 
@@ -80,14 +110,19 @@ window.onload = function() {
 		})();
 	}
 
+	main();
+};
+
+function main() {
 	myGob = new DGob();
-	myGob.sprite.loadSheet('./gfx/game/ball.png');
-	myGob.sprite.setDimensions(8, 8);
+	myGob.sprite.loadSheet('./gfx/game/triangle16.png');
+	myGob.sprite.setDimensions(16, 16);
 	document.getElementById('viewport').appendChild(myGob.sprite.element);
 	myGob.velX = 1;
 	myGob.velY = 1;
+	myGob.velA = -1;
 	animate();
-};
+}
 
 function animate() {
 	myGob.update();
