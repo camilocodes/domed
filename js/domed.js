@@ -78,6 +78,7 @@ class DGob {
 		this.sprite.style.top = this.posY 	+ "px";
 
 		// Angular position
+		// Reset when full-circle
 		if (this.posA >= 360) this.posA -= 360;
 
 		var deg = this.posA;
